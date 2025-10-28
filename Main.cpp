@@ -36,7 +36,7 @@ public:
 };
 
 // -------------------------
-// Clase Jugador
+// Clase Jugadora
 // -------------------------
 // Cada jugador mantiene una "mano" (arreglo dinámico de Carta) y
 // arrays para sus pilas por color (suma de valores por color).

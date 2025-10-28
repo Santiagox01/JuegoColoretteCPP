@@ -18,7 +18,7 @@ void mostrarMenu() {
 
 void nuevaPartida() {
     std::cout << "\n=== Nueva Partida ===\n";
-    std::cout << "Tú eres el Jugador 1. Jugarás contra oponentes automáticos.\n\n";
+    std::cout << "Tú eres el Jugador 1. Jugarás contra oponentes automáticos o jugadores locales.\n\n";
 
     int numPlayers;
     std::cout << "Número de jugadores (3-5): ";

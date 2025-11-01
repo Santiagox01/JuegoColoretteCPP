@@ -187,7 +187,7 @@ Si deseas mejorar el proyecto, contáctanos:
 **Estudiantes del ITM:**
 
 * Santiago Jaramillo Valencia
-* Yenifer Foronda Hernández
+* Yenifer Foronda Hernandez
 * Jayder Alejandro Arias Arango
 
 ---

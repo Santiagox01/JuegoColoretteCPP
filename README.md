@@ -163,7 +163,7 @@ Estructura que almacena el progreso completo del juego:
 
 ## 🔁 Ejemplo de Flujo de Juego
 
-1. Se eligen 4 jugadores y se asigna un nombre de partida
+1. Se eligen 3-5 jugadores y se asigna un nombre de partida
 2. Se prepara el mazo según las reglas del número de jugadores
 3. Cada jugador en su turno elige entre **robar** o **tomar una fila**
 4. Se repite hasta que todos hayan tomado una fila

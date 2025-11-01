@@ -193,4 +193,3 @@ Si deseas mejorar el proyecto, contáctanos:
 ---
 
 🎨 **¡Disfruta de Colorette y demuestra tu mejor estrategia de colores!**
-

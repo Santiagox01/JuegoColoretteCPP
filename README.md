@@ -14,7 +14,7 @@ Ideal para practicar **programación estructurada y orientada a objetos** en C++
 ### 1️⃣ Clona o descarga este repositorio
 
 ```bash
-git clone https://github.com/Santiagox01/estructura_2025
+git clone https://github.com/Santiagox01/JuegoColoretteCPP
 2️⃣ Compila el juego
 bash
 Copiar código

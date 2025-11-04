@@ -34,7 +34,7 @@ std::string Carta::toString() const {
             return "+2 PUNTOS";
         }
     }
-    return COLOR_NAMES[color] + " " + std::to_string(valor);
+    return COLOR_NAMES[color];
 }
 
 bool Carta::esUltimaRonda() const {

@@ -50,46 +50,33 @@ void Juego::crearJugadores(int n) {
 
 void Juego::repartirCartasIniciales() {
     std::cout << "\n=== Repartiendo cartas iniciales ===\n";
-    std::cout << "Cada jugador debe tomar una carta de color distinto del mazo.\n\n";
+    std::cout << "Cada jugador recibirá una carta de color aleatorio (sin repetir colores).\n\n";
     
-    std::vector<int> coloresUsados;
+    std::vector<int> coloresDisponibles;
+    for (int c = 0; c < MAX_COLORS; c++) {
+        if (c != colorExcluido) {
+            coloresDisponibles.push_back(c);
+        }
+    }
+    
+    std::shuffle(coloresDisponibles.begin(), coloresDisponibles.end(), rng);
     
     for (size_t i = 0; i < jugadores.size(); i++) {
-        std::cout << jugadores[i].getNombre() << ", elige un color que nadie haya tomado:\n";
+        int colorAleatorio = coloresDisponibles[i];
         
-        std::cout << "Colores disponibles:\n";
-        for (int c = 0; c < MAX_COLORS; c++) {
-            if (c == colorExcluido) continue;
-            bool usado = std::find(coloresUsados.begin(), coloresUsados.end(), c) != coloresUsados.end();
-            if (!usado) {
-                std::cout << "  " << c << ". " << COLOR_NAMES[c] << "\n";
-            }
-        }
-        
-        int colorElegido;
-        std::cout << "Ingresa el número del color: ";
-        std::cin >> colorElegido;
-        
-        while (colorElegido < 0 || colorElegido >= MAX_COLORS || 
-               colorElegido == colorExcluido ||
-               std::find(coloresUsados.begin(), coloresUsados.end(), colorElegido) != coloresUsados.end()) {
-            std::cout << "Color inválido o ya tomado. Intenta de nuevo: ";
-            std::cin >> colorElegido;
-        }
-        
-        auto it = std::find_if(mazo.begin(), mazo.end(), [colorElegido](const Carta& c) {
-            return c.color == colorElegido && !c.esEspecial;
+        auto it = std::find_if(mazo.begin(), mazo.end(), [colorAleatorio](const Carta& c) {
+            return c.color == colorAleatorio && !c.esEspecial;
         });
         
         if (it != mazo.end()) {
             Carta cartaInicial = *it;
             mazo.erase(it);
             jugadores[i].setCartaInicial(cartaInicial);
-            coloresUsados.push_back(colorElegido);
             
-            std::cout << jugadores[i].getNombre() << " tomó del mazo: " << cartaInicial.toString() << "\n\n";
+            std::cout << jugadores[i].getNombre() << " recibió del mazo: " 
+                      << cartaInicial.toString() << "\n";
         } else {
-            std::cout << "ERROR: No se encontró carta del color elegido en el mazo.\n";
+            std::cout << "ERROR: No se encontró carta del color en el mazo.\n";
         }
     }
 }
@@ -172,14 +159,36 @@ void Juego::realizarTurno(int jugadorIdx, bool& tomoFila) {
             return;
         }
         
-        mostrarFilas();
-        std::cout << "\n¿Qué fila quieres tomar? (0-" << (filas.size() - 1) << "): ";
+        bool filaConfirmada = false;
         int filaIdx;
-        std::cin >> filaIdx;
         
-        while (filaIdx < 0 || filaIdx >= (int)filas.size()) {
-            std::cout << "Fila inválida. Elige entre 0 y " << (filas.size() - 1) << ": ";
+        while (!filaConfirmada) {
+            mostrarFilas();
+            std::cout << "\n¿Qué fila quieres tomar? (0-" << (filas.size() - 1) << "): ";
             std::cin >> filaIdx;
+            
+            while (filaIdx < 0 || filaIdx >= (int)filas.size()) {
+                std::cout << "Fila inválida. Elige entre 0 y " << (filas.size() - 1) << ": ";
+                std::cin >> filaIdx;
+            }
+            
+            Fila filaElegida = filas[filaIdx];
+            
+            std::cout << "\nVas a tomar:\n";
+            std::cout << "  - " << filaElegida.cartaPrincipal.toString() << "\n";
+            for (const auto& c : filaElegida.cartasAdicionales) {
+                std::cout << "  - " << c.toString() << "\n";
+            }
+            std::cout << "Total: " << filaElegida.totalCartas() << " cartas\n";
+            std::cout << "¿Confirmar? (1=Sí, 0=No): ";
+            int confirmar;
+            std::cin >> confirmar;
+            
+            if (confirmar == 1) {
+                filaConfirmada = true;
+            } else {
+                std::cout << "Acción cancelada. Elige otra fila.\n\n";
+            }
         }
         
         Fila filaElegida = filas[filaIdx];
@@ -268,14 +277,36 @@ void Juego::realizarTurno(int jugadorIdx, bool& tomoFila) {
             return;
         }
         
-        mostrarFilas();
-        std::cout << "\n¿Qué fila quieres tomar? (0-" << (filas.size() - 1) << "): ";
+        bool filaConfirmada = false;
         int filaIdx;
-        std::cin >> filaIdx;
         
-        while (filaIdx < 0 || filaIdx >= (int)filas.size()) {
-            std::cout << "Fila inválida. Elige entre 0 y " << (filas.size() - 1) << ": ";
+        while (!filaConfirmada) {
+            mostrarFilas();
+            std::cout << "\n¿Qué fila quieres tomar? (0-" << (filas.size() - 1) << "): ";
             std::cin >> filaIdx;
+            
+            while (filaIdx < 0 || filaIdx >= (int)filas.size()) {
+                std::cout << "Fila inválida. Elige entre 0 y " << (filas.size() - 1) << ": ";
+                std::cin >> filaIdx;
+            }
+            
+            Fila filaElegida = filas[filaIdx];
+            
+            std::cout << "\nVas a tomar:\n";
+            std::cout << "  - " << filaElegida.cartaPrincipal.toString() << "\n";
+            for (const auto& c : filaElegida.cartasAdicionales) {
+                std::cout << "  - " << c.toString() << "\n";
+            }
+            std::cout << "Total: " << filaElegida.totalCartas() << " cartas\n";
+            std::cout << "¿Confirmar? (1=Sí, 0=No): ";
+            int confirmar;
+            std::cin >> confirmar;
+            
+            if (confirmar == 1) {
+                filaConfirmada = true;
+            } else {
+                std::cout << "Acción cancelada. Elige de nuevo.\n\n";
+            }
         }
         
         Fila filaElegida = filas[filaIdx];
@@ -364,20 +395,55 @@ void Juego::calcularYMostrarPuntajesFinales() {
     
     for (auto& jugador : jugadores) {
         std::cout << "\n" << jugador.getNombre() << ", elige tus 3 colores positivos:\n";
-        std::cout << "Colores disponibles:\n";
+        
+        std::vector<std::pair<int, int>> coloresConCantidad;
         for (int c = 0; c < MAX_COLORS; c++) {
             if (c == colorExcluido) continue;
             int cantidad = jugador.contarCartasPorColor(c);
-            std::cout << "  " << c << ". " << COLOR_NAMES[c] << " (" << cantidad << " cartas)\n";
+            coloresConCantidad.push_back({cantidad, c});
+        }
+        
+        std::sort(coloresConCantidad.begin(), coloresConCantidad.end(), std::greater<std::pair<int, int>>());
+        
+        std::cout << "\nSugerencia - Tus colores con más cartas:\n";
+        for (size_t i = 0; i < std::min(size_t(3), coloresConCantidad.size()); i++) {
+            int color = coloresConCantidad[i].second;
+            int cantidad = coloresConCantidad[i].first;
+            std::cout << "  " << COLOR_NAMES[color] << ": " << cantidad << " cartas\n";
+        }
+        
+        std::cout << "\nColores disponibles:\n";
+        for (int c = 0; c < MAX_COLORS; c++) {
+            if (c == colorExcluido) continue;
+            int cantidad = jugador.contarCartasPorColor(c);
+            std::cout << "  " << c << ". " << COLOR_NAMES[c] << " - " << cantidad << " cartas\n";
         }
         
         int col1, col2, col3;
-        std::cout << "Primer color (número): ";
-        std::cin >> col1;
-        std::cout << "Segundo color (número): ";
-        std::cin >> col2;
-        std::cout << "Tercer color (número): ";
-        std::cin >> col3;
+        bool valido = false;
+        
+        while (!valido) {
+            std::cout << "\nPrimer color: ";
+            std::cin >> col1;
+            std::cout << "Segundo color: ";
+            std::cin >> col2;
+            std::cout << "Tercer color: ";
+            std::cin >> col3;
+            
+            if (col1 < 0 || col1 >= MAX_COLORS || col1 == colorExcluido ||
+                col2 < 0 || col2 >= MAX_COLORS || col2 == colorExcluido ||
+                col3 < 0 || col3 >= MAX_COLORS || col3 == colorExcluido) {
+                std::cout << "\n*** Error: Uno o más colores no son válidos. Intenta de nuevo. ***\n";
+                continue;
+            }
+            
+            if (col1 == col2 || col1 == col3 || col2 == col3) {
+                std::cout << "\n*** Error: Debes elegir 3 colores DIFERENTES. Intenta de nuevo. ***\n";
+                continue;
+            }
+            
+            valido = true;
+        }
         
         int puntaje = jugador.calcularPuntajeConSeleccion(col1, col2, col3);
         puntajes.push_back(puntaje);

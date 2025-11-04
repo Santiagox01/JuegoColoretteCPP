@@ -22,21 +22,21 @@ void mostrarReglas() {
     std::cout << "========================================\n\n";
     std::cout << "OBJETIVO: Conseguir la mayor puntuación coleccionando cartas de colores.\n\n";
     std::cout << "PREPARACIÓN:\n";
-    std::cout << "- Se juega con 3-5 jugadores (todos humanos, turnos locales)\n";
+    std::cout << "- Se juega con 3-5 jugadores\n";
     std::cout << "- Con 3 jugadores, se retira un color completo del mazo\n";
     std::cout << "- Cada jugador toma una carta de color distinto al inicio\n";
     std::cout << "- Se colocan tantas cartas de fila como jugadores haya\n\n";
     std::cout << "TURNO:\n";
     std::cout << "En tu turno puedes:\n";
     std::cout << "1. Robar la carta superior del mazo y colocarla junto a una fila, O\n";
-    std::cout << "2. Tomar una fila completa (la carta principal + cartas adicionales)\n\n";
+    std::cout << "2. Tomar una fila completa\n\n";
     std::cout << "RONDAS:\n";
     std::cout << "- Cuando todos toman una fila, inicia nueva ronda\n";
     std::cout << "- Hay una carta 'ÚLTIMA RONDA' que marca la penúltima ronda\n\n";
     std::cout << "PUNTUACIÓN FINAL:\n";
     std::cout << "- Cada jugador elige 3 colores como POSITIVOS\n";
     std::cout << "- Los demás colores cuentan como NEGATIVOS\n";
-    std::cout << "- Tabla de puntos (Lado Café):\n";
+    std::cout << "- Tabla de puntos:\n";
     std::cout << "  1 carta = 1 punto\n";
     std::cout << "  2 cartas = 3 puntos\n";
     std::cout << "  3 cartas = 6 puntos\n";
@@ -57,7 +57,7 @@ void nuevaPartida() {
     if (numPlayers < 3) numPlayers = 3;
     if (numPlayers > 5) numPlayers = 5;
     
-    std::cout << "Jugando con " << numPlayers << " jugadores (todos humanos).\n";
+    std::cout << "Jugando con " << numPlayers << " jugadores.\n";
     
     std::cout << "Nombre para esta partida (sin espacios): ";
     std::string saveName;
@@ -163,7 +163,6 @@ void administrarPartidas() {
 int main() {
     std::cout << "=== COLORETTE ===\n";
     std::cout << "Juego de cartas de colores\n";
-    std::cout << "Todos los jugadores son humanos (juego local por turnos)\n";
     
     while (true) {
         mostrarMenu();

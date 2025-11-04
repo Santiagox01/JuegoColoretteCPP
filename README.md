@@ -15,190 +15,181 @@ Ideal para practicar **programación estructurada y orientada a objetos** en C++
 
 ```bash
 git clone https://github.com/Santiagox01/JuegoColoretteCPP
-2️⃣ Compila el juego
-bash
-Copiar código
-make
-Nota: Asegúrate de que tu compilador soporte C++11 o superior.
+````
 
-🕹️ Uso
-Ejecuta el programa compilado
+### 2️⃣ Compila el juego
 
-bash
-Copiar código
-make run
-o directamente:
+```bash
+make 
+```
 
-bash
-Copiar código
-./Colorette
-Menú Principal:
+> **Nota:** Asegúrate de que tu compilador soporte **C++11** o superior.
 
-🎮 Nueva Partida → Inicia una nueva sesión local (3 a 5 jugadores humanos)
+---
 
-💾 Cargar Partida → Reanuda una partida guardada
+## 🕹️ Uso
 
-🗂️ Administrar Partidas → Lista y elimina partidas guardadas
+1. **Ejecuta el programa compilado**
 
-🚪 Salir → Cierra el juego
+   ```bash
+   make run
+   ```
 
-Nueva Partida:
+   o directamente:
 
-Elige el número de jugadores (de 3 a 5)
+   ```bash
+   ./Colorette
+   ```
 
-Ingresa un nombre para la partida (sin espacios)
+2. **Menú Principal:**
 
-Se mostrarán las reglas completas del juego
+   * 🎮 **Nueva Partida** → Inicia una nueva sesión local (3 a 5 jugadores humanos)
+   * 💾 **Cargar Partida** → Reanuda una partida guardada
+   * 🗂️ **Administrar Partidas** → Lista y elimina partidas guardadas
+   * 🚪 **Salir** → Cierra el juego
 
-Presiona Enter para comenzar
+3. **Nueva Partida:**
 
-Durante la Partida:
+   * Elige el número de jugadores (de 3 a 5)
+   * Ingresa un nombre para la partida (sin espacios)
+   * Se mostrarán las **reglas completas** del juego
+   * Presiona **Enter** para comenzar
 
-Cada jugador puede robar una carta del mazo y colocarla en una fila
+4. **Durante la Partida:**
 
-O bien, tomar una fila completa de cartas disponibles
+   * Cada jugador puede **robar una carta** del mazo y colocarla en una fila
+   * O bien, **tomar una fila completa** de cartas disponibles
+   * Cuando todos los jugadores han tomado una fila, inicia una nueva ronda
+   * La carta **“Última Ronda”** marca el final del juego
 
-Cuando todos los jugadores han tomado una fila, inicia una nueva ronda
+5. **Puntuación Final:**
 
-La carta “Última Ronda” marca el final del juego
+   * Cada jugador elige **3 colores positivos**, los demás se cuentan como negativos
+   * Las cartas **+2** suman puntos extra
+   * El sistema aplica la tabla oficial de puntuación automáticamente
 
-Puntuación Final:
+6. **Guardado y Carga:**
 
-Cada jugador elige 3 colores positivos, los demás se cuentan como negativos
+   * Las partidas se almacenan en la carpeta `saves/`
+   * Puedes cargarlas o eliminarlas desde el menú principal
 
-Las cartas +2 suman puntos extra
+---
 
-El sistema aplica la tabla oficial de puntuación automáticamente
+## ✨ Características
 
-Guardado y Carga:
+🃏 **Modo Local Multijugador** — Hasta 5 jugadores humanos en una sola consola
+💾 **Sistema de Guardado Completo** — Guarda y reanuda partidas fácilmente
+📚 **Reglas Integradas** — Explicación detallada antes de comenzar
+🧠 **Estrategia Pura** — Elige bien tus colores positivos y negativos
+🗂️ **Gestor de Partidas** — Lista, carga o elimina tus partidas guardadas
 
-Las partidas se almacenan en la carpeta saves/
+---
 
-Puedes cargarlas o eliminarlas desde el menú principal
+## 🧩 Arquitectura del Proyecto
 
-✨ Características
-🃏 Modo Local Multijugador — Hasta 5 jugadores humanos en una sola consola
-💾 Sistema de Guardado Completo — Guarda y reanuda partidas fácilmente
-📚 Reglas Integradas — Explicación detallada antes de comenzar
-🧠 Estrategia Pura — Elige bien tus colores positivos y negativos
-🗂️ Gestor de Partidas — Lista, carga o elimina tus partidas guardadas
+### 🔹 Clases Principales
 
-🧩 Arquitectura del Proyecto
-🔹 Clases Principales
-🟨 Juego
-Responsabilidad: Controla la lógica general de las partidas.
+#### 🟨 `Juego`
 
-Métodos principales:
+* **Responsabilidad:** Controla la lógica general de las partidas.
+* **Métodos principales:**
 
-inicializarMazo(int jugadores)
+  * `inicializarMazo(int jugadores)`
+  * `barajar()`
+  * `crearJugadores(int jugadores)`
+  * `repartirCartasIniciales()`
+  * `ejecutarJuegoConGuardado(string nombrePartida)`
+  * `cargarPartida(string ruta)`
 
-barajar()
+#### 🟩 `SaveManager`
 
-crearJugadores(int jugadores)
+* **Responsabilidad:** Gestiona el guardado y la eliminación de partidas.
+* **Métodos principales:**
 
-repartirCartasIniciales()
+  * `listarPartidas()`
+  * `eliminarPartida(string nombre)`
+  * `guardarPartida(string nombre, Estado estado)`
 
-ejecutarJuegoConGuardado(string nombrePartida)
+#### 🟦 `Jugador`
 
-cargarPartida(string ruta)
+* **Responsabilidad:** Representar a un jugador humano.
+* **Atributos:**
 
-🟩 SaveManager
-Responsabilidad: Gestiona el guardado y la eliminación de partidas.
+  * `nombre`, `cartas`
+* **Métodos:**
 
-Métodos principales:
+  * `tomarFila()`
+  * `elegirColorPositivo()`
 
-listarPartidas()
+#### 🟥 `Carta`
 
-eliminarPartida(string nombre)
+* **Responsabilidad:** Representa una carta individual.
+* **Atributos:**
 
-guardarPartida(string nombre, Estado estado)
+  * `color`, `valor`
+* **Ejemplo:** cartas de color o carta especial “+2” o “Última Ronda”.
 
-🟦 Jugador
-Responsabilidad: Representar a un jugador humano.
+#### 🟪 `Mazo`
 
-Atributos:
+* **Responsabilidad:** Gestiona todas las cartas del juego.
+* **Métodos principales:**
 
-nombre, cartas
+  * `barajar()`
+  * `robarCarta()`
 
-Métodos:
+#### 🟫 `FilaDeJuego`
 
-tomarFila()
+* **Responsabilidad:** Representar las filas de cartas en la mesa.
+* **Métodos principales:**
 
-elegirColorPositivo()
+  * `agregarCarta(Carta c)`
+  * `estaCompleta()`
 
-🟥 Carta
-Responsabilidad: Representa una carta individual.
+---
 
-Atributos:
+## 📂 Estructuras de Datos
 
-color, valor
+### `EstadoPartida`
 
-Ejemplo: cartas de color o carta especial “+2” o “Última Ronda”.
-
-🟪 Mazo
-Responsabilidad: Gestiona todas las cartas del juego.
-
-Métodos principales:
-
-barajar()
-
-robarCarta()
-
-🟫 FilaDeJuego
-Responsabilidad: Representar las filas de cartas en la mesa.
-
-Métodos principales:
-
-agregarCarta(Carta c)
-
-estaCompleta()
-
-📂 Estructuras de Datos
-EstadoPartida
 Estructura que almacena el progreso completo del juego:
 
-mazo: Cartas restantes
+* `mazo`: Cartas restantes
+* `jugadores`: Lista de jugadores y sus cartas
+* `filas`: Estado actual de las filas
+* `rondaActual`: Número de ronda
+* `ultimaRonda`: Indica si es la ronda final
 
-jugadores: Lista de jugadores y sus cartas
+---
 
-filas: Estado actual de las filas
+## 🔁 Ejemplo de Flujo de Juego
 
-rondaActual: Número de ronda
+1. Se eligen 3-5 jugadores y se asigna un nombre de partida
+2. Se prepara el mazo según las reglas del número de jugadores
+3. Cada jugador en su turno elige entre **robar** o **tomar una fila**
+4. Se repite hasta que todos hayan tomado una fila
+5. Al llegar la **Última Ronda**, se calcula la puntuación
+6. Se guardan los resultados automáticamente
 
-ultimaRonda: Indica si es la ronda final
+---
 
-🔁 Ejemplo de Flujo de Juego
-Se eligen 4 jugadores y se asigna un nombre de partida
+## 🤝 Contribuciones
 
-Se prepara el mazo según las reglas del número de jugadores
-
-Cada jugador en su turno elige entre robar o tomar una fila
-
-Se repite hasta que todos hayan tomado una fila
-
-Al llegar la Última Ronda, se calcula la puntuación
-
-Se guardan los resultados automáticamente
-
-🤝 Contribuciones
 Si deseas mejorar el proyecto, contáctanos:
 
-@Santiagox01
+* [@Santiagox01](https://github.com/Santiagox01)
+* [@YForondaa](https://github.com/YForondaa)
+* [@jaiderehaco-eng](https://github.com/jaiderehaco-eng)
 
-@YForondaa
+---
 
-@jaiderehaco-eng
+## 👨‍💻 Desarrollado por
 
-👨‍💻 Desarrollado por
-Estudiantes del ITM:
+**Estudiantes del ITM:**
 
-Santiago Jaramillo Valencia
+* Santiago Jaramillo Valencia
+* Yenifer Foronda Hernandez
+* Jayder Alejandro Arias Arango
 
-Yenifer Foronda Hernández
+---
 
-Jayder Alejandro Arias Arango
-
-🎨 ¡Disfruta de Colorette y demuestra tu mejor estrategia de colores!
-
-yaml
-Copiar código
+🎨 **¡Disfruta de Colorette y demuestra tu mejor estrategia de colores!**
